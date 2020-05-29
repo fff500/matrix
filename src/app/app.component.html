@@ -1,8 +1,15 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-8"></div>
+    <div class="col-8">
+      <div class="matrix">
+        <div class="matrix__container">
+          <span *ngIf="matrixIsBuilt" class="alert alert-primary">Click on cells to change the value.</span>
+          <table class="matrix__table"></table>
+        </div>
+      </div>
+    </div>
     <div class="col-4">
-      <form [formGroup]="form" (ngSubmit)="log(form)">
+      <form [formGroup]="form" (ngSubmit)="drawMatrix()">
         <div class="form-group">
           <label for="matrixWidth">Enter matrix width:</label>
           <input
@@ -25,7 +32,7 @@
             id="matrixHeight"
             class="form-control"
           >
-          <div *ngIf="!form.get('matrixHeight').valid && form.get('matrixWidth').touched" class="alert alert-danger">
+          <div *ngIf="!form.get('matrixHeight').valid && form.get('matrixHeight').touched" class="alert alert-danger">
             <div *ngIf="form.get('matrixHeight').errors.required">This field is required.</div>
             <div *ngIf="form.get('matrixHeight').errors.min">Minimum value is 1.</div>
             <div *ngIf="form.get('matrixHeight').errors.max">Maximum value is 10.</div>
