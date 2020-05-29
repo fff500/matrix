@@ -3,8 +3,13 @@
     <div class="col-8">
       <div class="matrix">
         <div class="matrix__container">
-          <span *ngIf="matrixIsBuilt" class="alert alert-primary">Click on cells to change the value.</span>
+          <div *ngIf="matrixIsBuilt" class="alert alert-primary">Click on cells to change the value.</div>
           <table class="matrix__table"></table>
+          <div *ngIf="matrixIsBuilt" class="matrix__calculation">
+            <button type="button" class="btn btn-success" (click)="checkMatrix()">Check Matrix</button>
+            <div>Result:</div>
+            <div class="result">{{result}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -38,8 +43,17 @@
             <div *ngIf="form.get('matrixHeight').errors.max">Maximum value is 10.</div>
           </div>
         </div>
-        <button [disabled]="!form.valid" class="btn btn-primary">Create matrix</button>
+        <button [disabled]="!form.valid" class="btn btn-primary">Create Matrix</button>
       </form>
+      <div *ngIf="history.length" class="history">
+        <h2 class="history__title">Checked matrices:</h2>
+        <ul class="history__list">
+          <li class="history__item" *ngFor="let historyItem of history; let i = index">
+            <span>Matrix {{i + 1}}</span>
+            <button type="button" class="btn btn-warning" (click)="restoreMatrix(i)">Restore</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

@@ -1,10 +1,18 @@
 .alert {
-  margin-top: 15px;
+  &.danger {
+    margin-top: 15px;  }
+
 
   &.alert-primary {
+    margin-bottom: 30px;
+    width: 50%;
     font-size: 20px;
     font-weight: bold;
   }
+}
+
+form {
+  margin-bottom: 50px;
 }
 
 .form-control.ng-invalid.ng-touched {
@@ -16,10 +24,11 @@
 
   &__container {
     margin: 0 auto;
+    text-align: center;
   }
 
   &__table {
-    margin: 0 auto;
+    margin: 0 auto 30px;
 
     td {
       width: 50px;
@@ -35,5 +44,44 @@
         background-color: #f6a45e;
       }
     }
+  }
+
+  &__calculation {
+    text-align: center;
+
+    button {
+      margin-bottom: 50px;
+    }
+
+    .result {
+      font-size: 48px;
+      font-weight: bold;
+      color: blueviolet;
+    }
+  }
+}
+
+.btn-success {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.history {
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
   }
 }

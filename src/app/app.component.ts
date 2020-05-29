@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   matrixHeight: number;
   matrix: any[];
   matrixIsBuilt = false;
+  result = 0;
+  history = [];
 
   constructor() {
   }
@@ -26,6 +28,8 @@ export class AppComponent implements OnInit {
       'matrixWidth': new FormControl(0, [Validators.required, Validators.min(1), Validators.max(10)]),
       'matrixHeight': new FormControl(0, [Validators.required, Validators.min(1), Validators.max(10)]),
     });
+
+    this.result = 5;
   }
 
   buildMatrix(): void {
@@ -35,7 +39,7 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < this.matrixHeight; i++) {
       const temp = new Array();
       for (let j = 0; j < this.matrixWidth; j++) {
-        temp[j] = '0';
+        temp.push('0');
         // temp.push(content);
         // content++;
       }
@@ -56,14 +60,21 @@ export class AppComponent implements OnInit {
       for (let y = 0; y < this.matrixWidth; y++) {
         const td = document.createElement('td');
         td.addEventListener('click', (event) => {
-          const target = event.target as HTMLTextAreaElement;
+          const target = event.target as HTMLTableDataCellElement;
+          const x = target.cellIndex;
+
+          // @ts-ignore
+          const y = target.parentNode.rowIndex;
           if (target.innerText == "0") {
+            this.matrix[y][x] = '1';
             target.style.backgroundColor = '#79d479';
             target.innerText = '1';
           } else {
+            this.matrix[y][x] = '0';
             target.style.backgroundColor = '#e1e1e1';
             target.innerText = '0';
           }
+          console.log(this.matrix);
         });
         td.innerText = '0';
         // td.innerText = counter.toString();
@@ -80,4 +91,17 @@ export class AppComponent implements OnInit {
     this.matrixHeight = this.form.get('matrixHeight').value;
     this.buildMatrix();
   };
+
+  checkMatrix() {
+    const currentMatrix = {
+      matrix: this.matrix,
+      width: this.matrixWidth,
+      height: this.matrixHeight
+    };
+    this.history.push(currentMatrix);
+  };
+
+  restoreMatrix(i) {
+    // const restoredMatrix
+  }
 }
