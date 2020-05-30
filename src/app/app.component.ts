@@ -30,16 +30,22 @@ export class AppComponent implements OnInit {
     });
 
     this.result = 5;
+    this.buildMatrix();
   }
 
   buildMatrix(): void {
     this.matrixIsBuilt = true;
     // let content = 0;
     const array = [];
-    for (let i = 0; i < this.matrixHeight; i++) {
+    // for (let i = 0; i < this.matrixHeight; i++) {
+    for (let i = 0; i < 10; i++) {
       const temp = new Array();
-      for (let j = 0; j < this.matrixWidth; j++) {
-        temp.push('0');
+      // for (let j = 0; j < this.matrixWidth; j++) {
+      for (let j = 0; j < 10; j++) {
+        temp.push({
+          value: '0',
+          checked: false
+        });
         // temp.push(content);
         // content++;
       }
@@ -50,14 +56,16 @@ export class AppComponent implements OnInit {
 
 
     // del
-    console.log(this.matrix);
+    // console.log(this.matrix);
   }
 
   buildTable(): void {
     // let counter = 0;
-    for (let x = 0; x < this.matrixHeight; x++) {
+    // for (let x = 0; x < this.matrixHeight; x++) {
+    for (let x = 0; x < 10; x++) {
       const tr = document.createElement('tr');
-      for (let y = 0; y < this.matrixWidth; y++) {
+      // for (let y = 0; y < this.matrixWidth; y++) {
+      for (let y = 0; y < 10; y++) {
         const td = document.createElement('td');
         td.addEventListener('click', (event) => {
           const target = event.target as HTMLTableDataCellElement;
@@ -66,15 +74,14 @@ export class AppComponent implements OnInit {
           // @ts-ignore
           const y = target.parentNode.rowIndex;
           if (target.innerText == "0") {
-            this.matrix[y][x] = '1';
+            this.matrix[y][x].value = '1';
             target.style.backgroundColor = '#79d479';
             target.innerText = '1';
           } else {
-            this.matrix[y][x] = '0';
+            this.matrix[y][x].value = '0';
             target.style.backgroundColor = '#e1e1e1';
             target.innerText = '0';
           }
-          console.log(this.matrix);
         });
         td.innerText = '0';
         // td.innerText = counter.toString();
@@ -93,12 +100,48 @@ export class AppComponent implements OnInit {
   };
 
   checkMatrix() {
-    const currentMatrix = {
-      matrix: this.matrix,
-      width: this.matrixWidth,
-      height: this.matrixHeight
-    };
-    this.history.push(currentMatrix);
+    // console.log(this.matrix);
+    // const currentMatrix = {
+    //   matrix: this.matrix,
+    //   width: this.matrixWidth,
+    //   height: this.matrixHeight
+    // };
+    // this.history.push(currentMatrix);
+    let counter = 0;
+    // for (let y = 0; y < this.matrixHeight; y++) {
+    for (let y = 0; y < 10; y++) {
+      // for (let x = 0; x < this.matrixWidth; x++) {
+      for (let x = 0; x < 10; x++) {
+        if (this.matrix[y][x].checked) continue;
+        if (this.matrix[y][x].value == '1') {
+          if (this.checkNeighbours(y, x)) {
+            counter++;
+            // debugger;
+          }
+        }
+      }
+    }
+    console.log(counter);
+  };
+
+  checkNeighbours(y, x) {
+    let yStart = y > 0 ? y - 1 : y;
+    let xStart = x > 0 ? x - 1 : x;
+    let yEnd = y < 10 - 1 ? y + 1 : y;
+    let xEnd = x < 10 - 1 ? x + 1 : x;
+    for (let i = yStart; i < yEnd; i++) {
+      for (let j = xStart; j < xEnd; j++) {
+        // if (!this.matrix[i][j].checked) {
+        //   this.matrix[i][j].checked = true;
+        // }
+        if ( y == i && x == j ) continue
+        if (this.matrix[i][j].value == '1' && !this.matrix[i][j].checked) {
+          this.matrix[i][j].checked = true;
+        }
+        return true;
+      }
+    }
+    return false;
   };
 
   restoreMatrix(i) {
